@@ -1,31 +1,26 @@
+import React, { useState } from 'react';
 
-import Header from './components/Layout/Header';
-import './App.css';
-import {  useState} from 'react';
-import Meal from "./components/Meals/Meal"
-import Cart from './components/Cart/Cart';
-import CartProvider from './Store/CartProvider';//
-    function App() {
-const[cartIsShown,setCartIsShown]=useState(false);
+import AddUser from './components/Users/AddUser';
+import UsersList from './components/Users/UsersList';
 
-  const ShowCartHandler=()=>{
-    setCartIsShown(true);
-  }
-  const hideCartHandler=()=>{
-    setCartIsShown(false);
-  }
-  
-  return (
-    <CartProvider>
-      {cartIsShown &&<Cart onClose={hideCartHandler}/>}
-     <Header onShowCart={ShowCartHandler}/>
-      
-     <main>
-       <Meal/>
-     </main>
-     
-    </CartProvider>
- 
- );
+function App() {
+  const [usersList, setUsersList] = useState([]);
+
+  const addUserHandler = (uName, uAge) => {
+    setUsersList((prevUsersList) => {
+      return [
+        ...prevUsersList,
+        { name: uName, age: uAge, id: Math.random().toString() },
+      ];
+    });
   };
-   export default App;
+
+  return (
+    <div>
+      <AddUser onAddUser={addUserHandler} />
+      <UsersList users={usersList} />
+    </div>
+  );
+}
+
+export default App;
